@@ -24,9 +24,9 @@ if (!is_writable($REX['FRONTEND_PATH']))
       $error[] = 'inst_write_permission';
 
 // eigentümer
-$ownwer  = posix_getpwuid(fileowner('index.php'));
-if ($ownwer['name'] !== 'www-data')
-      $error[] = 'inst_owner_problem';
+#$ownwer  = posix_getpwuid(fileowner('index.php'));
+#if ($ownwer['name'] !== 'www-data')
+      #$error[] = 'inst_owner_problem';
 
 /*
  * Verzeichnis installieren

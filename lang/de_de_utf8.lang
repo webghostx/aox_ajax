@@ -3,3 +3,10 @@ aox_ajax_inst_rex_version_min = Es wird REDAXO 4.5 oder höher benötigt!
 aox_ajax_inst_php_version_min = Es wird PHP 5.4 oder höher benötigt!
 aox_ajax_inst_write_permission = Keine Schreibrechte!
 aox_ajax_inst_owner_problem = www-date ist nicht der Eigentümer des Verzeichnis. Das kann zu Problemen führen!
+
+aox_ajax_page_log = Log
+aox_ajax_page_log_empty = Die Log-Datei ist leer
+aox_ajax_page_log_del = Log-Datei leeren
+aox_ajax_page_log_refresh = Log aktualisieren
+
+aox_ajax_page_help = Hilfe

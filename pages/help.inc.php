@@ -1,69 +1,85 @@
-<?php
 
-$mypage = rex_request('page','string');
-$subpage = rex_request('subpage', 'string');
-$chapter = rex_request('chapter', 'string');
-$func = rex_request('func', 'string');
-
-// include markdwon parser
-if (!class_exists('Parsedown')) {
-	require($REX['INCLUDE_PATH'] . '/addons/aox_ajax/classes/class.parsedown.inc.php');
-}
-
-// chapters
-$chapterpages = array (
-	'' => array($I18N->msg('aox_ajax_help_chapter_readme'), 'pages/help/readme.inc.php'),
-	'changelog' => array($I18N->msg('aox_ajax_help_chapter_changelog'), 'pages/help/changelog.inc.php'),
-	'license' => array($I18N->msg('aox_ajax_help_chapter_license'), 'pages/help/license.inc.php'),
-);
-
-// build chapter navigation
-$chapternav = '';
-
-foreach ($chapterpages as $chapterparam => $chapterprops) {
-	if ($chapterprops[0] != '') {
-		if ($chapter != $chapterparam) {
-			$chapternav .= ' | <a href="?page=' . $mypage . '&amp;subpage=' . $subpage . '&amp;chapter=' . $chapterparam . '">' . $chapterprops[0] . '</a>';
-		} else {
-			$chapternav .= ' | <a class="rex-active" href="?page=' . $mypage . '&amp;subpage=' . $subpage . '&amp;chapter=' . $chapterparam . '">' . $chapterprops[0] . '</a>';
-		}
-	}
-}
-$chapternav = ltrim($chapternav, " | ");
-
-// build chapter output
-$addonroot = $REX['INCLUDE_PATH']. '/addons/'.$mypage.'/';
-$source    = $chapterpages[$chapter][1];
-
-// output
-echo '
-<div class="rex-addon-output" id="subpage-' . $subpage . '">
-  <h2 class="rex-hl2" style="font-size:1em">' . $chapternav . '</h2>
-  <div class="rex-addon-content">
-    <div class= "addon-template">
-    ';
-
-include($addonroot . $source);
-
-echo '
-    </div>
-  </div>
-</div>';
-
-?>
-
+<style>
+      code {
+            background: #fff; color: darkred;
+      }
+</style>
+<div class="rex-addon-output">
+	<h2 class="rex-hl2">AJAX Framework <?php echo $I18N->msg('aox_ajax_page_help') ?></h2>
+	<div class="rex-area-content">
+            <p>
+                  Mit diesem kleinen Framework kann man seine AJAX-Komponenten besser verwalten.
+                  Jeder AJAX-Request läuft über den Controllen <code>/ajax/index.php</code> .
+                  Bei jedem Request muss der Parameter <code>PATH</code> mitgesendet werden.
+                  Damit sagt man dem Controller welche Datei erforderlich ist. Optional
+                  können mit <code>DATA</code> beliebige Daten gesendet werden.
+                  Der Contoller empfängt die Daten mit <code>$_REQUEST[]</code>, somit kann entweder
+                  mit <code>get</code> oder mit <code>post</code> gearbeitet werden.
+            </p>
+            <br/>
+            <h3>
+                  Der Contoller versteht drei verschiedene Arten von Pfad-Angaben
+            </h3>
+            <ul>
+                  <li>
+                        <code>Beispiel/Hallo.php</code> das ist der empfohlene Weg. Dabei erwartet
+                        der Controller die benötigte Datei im Verzeichnis <code>/ajax/php</code>
+                        zu finden. Dieses Verzeichnis ist von aussen geschützt.
+                  </li>
+                  <li>
+                        <code>/MeinVerzeichnis/test.php</code> durch den führenden Schrägstrich
+                        sucht der Controller vom REDAXO Frontent-Path aus, also von dem Pfad aus wo Redaxo 
+                        installiert ist.
+                  </li>
+                  <li>
+                        <code>http://meineDomain-oder-eine-andere.com/</code> Durch die Angabe eines 
+                        Protokolls stellt der Controller einen Stream her. Dies ist auch auf andere 
+                        Domains möglich (Cross-Origin Resource Sharing). Der Server welcher den
+                        Request empfangen soll, muss jedoch den Zugriff erlauben.
+                  </li>
+            </ul>
+            <h3>Beispiele und Hilfe</h3>
+            
+            <ul>
+                  <li>
+                        Quellcode - 
+                        <a href="https://github.com/webghostx/aox_ajax" target="_blank">github</a>
+                  </li>
+                  <li>
+                        Code-Beispiele -
+                        <a href="https://github.com/webghostx/aox_ajax/wiki" target="_blank">Wiki</a>
+                  </li>
+                  <li>
+                        Probleme -
+                        <a href="https://github.com/webghostx/aox_ajax/issues" target="_blank">Issues</a>
+                  </li>
+            </ul>
+            
+            <h3>Testseite</h3>
+            <p>
+                  Für Tests oder als Beispiel kann auch folgendes Template in REDAXO angelegt werden. Das 
+                  Template hat keine Artikel-Ausgabe, sondern beinhaltet nur einige Tests. Es reicht daher
+                  einen leeren Atikel anzulegen und das Template zu wählen.
+            <pre id="tmplPre" style="margin: 1em;padding: 1em;background: #fff;border: 1px solid #ccc; max-height: 400px; overflow: auto">
+<?php echo htmlentities(file_get_contents(realpath($REX['INCLUDE_PATH'] . '/addons/aox_ajax/install_files/template.php'))); ?>
+            </pre>
+            </p>
+	</div>
+</div>
 <script type="text/javascript">
-jQuery(document).ready(function($) {
-	// make external links clickable
-	$("#subpage-help").delegate("a", "click", function(event) {
-		var host = new RegExp("/" + window.location.host + "/");
-
-		if (!host.test(this.href)) {
-			event.preventDefault();
-			event.stopPropagation();
-
-			window.open(this.href, "_blank");
-		}
-	});
-});
+(function () {
+      var tmplPre = document.getElementById('tmplPre');
+      tmplPre.onclick = function () {
+            if (document.selection) {
+                  var range = document.body.createTextRange();
+                  range.moveToElementText(document.getElementById('tmplPre'));
+                  range.select();
+            }
+            else if (window.getSelection) {
+                  var range = document.createRange();
+                  range.selectNode(document.getElementById('tmplPre'));
+                  window.getSelection().addRange(range);
+            }
+      }
+})();
 </script>

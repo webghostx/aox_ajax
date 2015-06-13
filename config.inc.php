@@ -19,10 +19,8 @@ if ($REX['REDAXO']) {
 
             // Pages
             $REX['ADDON']['aox_ajax']['SUBPAGES'] = array(
-                array('', $I18N->msg('aox_ajax_start')),
-                array('settings', $I18N->msg('aox_ajax_settings')),
-                array('setup', $I18N->msg('aox_ajax_setup')),
-                array('help', $I18N->msg('aox_ajax_help'))
+                array('', $I18N->msg('aox_ajax_page_log')),
+                array('help', $I18N->msg('aox_ajax_page_help'))
             );
       }
 }//_ /endif REDAXO

@@ -17,7 +17,7 @@ if (version_compare($REX['VERSION'] . '.' . $REX['SUBVERSION'] . '.' . $REX['MIN
 
 // php version
 if (version_compare(PHP_VERSION, '5.4.0', '<='))
-      $error[] = 'inst_php_version_min'.PHP_VERSION;
+      $error[] = 'inst_php_version_min';
 
 // dir
 if (!is_writable($REX['FRONTEND_PATH']))

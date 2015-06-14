@@ -23,7 +23,7 @@ require_once $REX['ADDON']['aox_ajax']['settings']['CONTROLLER_CLASS'];
 /*
  * Debug Status aus Request entnehmen
  */
-if(isset($_REQUEST['DEBUG']) && $_REQUEST['DEBUG'] !== false)
+if(isset($_REQUEST['DEBUG']) && (intval($_REQUEST['DEBUG']) === 1 || $_REQUEST['DEBUG'] === true))
       $REX['ADDON']['aox_ajax']['settings']['DEBUG'] = true;
 
 /*

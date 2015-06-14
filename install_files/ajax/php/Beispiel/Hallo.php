@@ -1,9 +1,11 @@
 <?php
 
 /*
- * Es wird nicht schaden die empfangenen Daten zu prüfen
+ * unter self::$requestData stehen unsere Daten die wir uber 
+ * den Parameter DATA gesendet haben. Es ist auch möglich 
+ * direkt über $_REQUEST['DATA'][] an die Daten zu kommen.
  */
-$requestData = (isset($_REQUEST['DATA'])) ? $_REQUEST['DATA'] : false;
+$requestData = (isset(self::$requestData)) ? self::$requestData : false;
 $firstName = filter_var($requestData['firstName'], FILTER_SANITIZE_STRING);
 $lastName = filter_var($requestData['lastName'], FILTER_SANITIZE_STRING);
 
